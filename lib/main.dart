@@ -15,96 +15,71 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-
         primarySwatch: Colors.blue,
       ),
       home: BlocProvider(
           create: (context) {
             return CounterBloc();
           },
-          child: MyHomePage(title: 'Counter app with bloc')
+          child: MyHomePage(title: 'Counter app with BLOC')
       ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-
+class MyHomePage extends StatelessWidget {
   final String title;
+  MyHomePage({required this.title});
 
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
+@override
+Widget build(BuildContext context) {
+  final bloc = BlocProvider.of<CounterBloc>(context);
+  return Scaffold(
+    appBar: AppBar(
+      title: Text(title),
+    ),
+    body: Center(
+      child: BlocBuilder<CounterBloc, CounterState>(
+          builder: (context, CounterState state) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'You have pushed the button this many times:',
+                ),
+                Text(
+                  '${state.count}',
+                  style: Theme
+                      .of(context)
+                      .textTheme
+                      .headline4,
+                ),
+              ],
+            );
+          }
+      ),
+    ),
+    floatingActionButton: Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        FloatingActionButton(
+          onPressed: () {
+            bloc.add(IncrementEvent());
+          },
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        ),
+        SizedBox(width: 16),
+        FloatingActionButton(
+          onPressed: () {
+            bloc.add(DecrementEvent());
+          },
+          tooltip: 'Decrement',
+          child: Icon(Icons.remove),
+        ),
+      ],
+    ),
+    // This trailing comma makes auto-formatting nicer for build methods.
+  );
 }
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      _counter--;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = BlocProvider.of<CounterBloc>(context);
-    return Scaffold(
-      appBar: AppBar(
-
-        title: Text(widget.title),
-      ),
-      body: Center(
-
-        child: BlocBuilder<CounterBloc, CounterState>(
-            builder: (context, CounterState state) {
-              return Column(
-
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Text(
-                    'You have pushed the button this many times:',
-                  ),
-                  Text(
-                    '${state.count}',
-                    style: Theme
-                        .of(context)
-                        .textTheme
-                        .headline4,
-                  ),
-                ],
-              );
-            }
-        ),
-      ),
-        floatingActionButton: Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            FloatingActionButton(
-              onPressed: (){
-                bloc.add(IncrementEvent());
-              },
-              tooltip: 'Increment',
-              child: Icon(Icons.add),
-            ),
-            SizedBox(width: 16),
-            FloatingActionButton(
-              onPressed: (){
-                bloc.add(DecrementEvent());
-              },
-              tooltip: 'Decrement',
-              child: Icon(Icons.remove),
-            ),
-          ],
-        ),
-     // This trailing comma makes auto-formatting nicer for build methods.
-    );
-  }
 }

@@ -9,6 +9,8 @@ class CounterBloc extends Bloc<CounterEvent, CounterState> {
   Stream<CounterState> mapEventToState(CounterEvent event) async*{
 
     if (event is IncrementEvent) {
+      //9 bhanada mathi jana didaina.
+      if(state.count>9) return;
       yield(CounterState(count: state.count + 1));
     }
     else if (event is DecrementEvent) {
