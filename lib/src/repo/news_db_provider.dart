@@ -43,14 +43,18 @@ class NewsDbProvider {
 
   Future<int> insertItem(ItemModel item) async {
     if (_db == null) await _init();
-    return _db!.insert(ITEM_TABLE, item.toJson());
+    return _db!.insert(ITEM_TABLE, item.toDb());
   }
 
   Future<ItemModel?> fetchItem(int id) async {
     if (_db == null) await _init();
     // final data =await _db!.rawQuery("SELECT *FROM $ITEM_TABLE where id = $id");
-    final data = await _db!.query(ITEM_TABLE, where: "id =?", whereArgs: [id]);
+    final data = await _db!.query(
+        ITEM_TABLE,
+        where: "id = ? ",
+        whereArgs: [id],
+    );
     if (data.length != 1) return null;
-    return ItemModel.fromJson(data.first);
+    return ItemModel.fromDB(data.first);
   }
 }
