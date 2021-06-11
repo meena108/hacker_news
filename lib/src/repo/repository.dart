@@ -1,6 +1,6 @@
 import 'package:hacker_news/src/bloc/models/item_model.dart';
-import 'package:hacker_news/src/bloc/repo/news_api_provider.dart';
 import 'package:hacker_news/src/repo/news_db_provider.dart';
+import 'news_api_provider.dart';
 
 class Repository {
   final NewsDbProvider dbProvider = NewsDbProvider();
