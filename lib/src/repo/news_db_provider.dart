@@ -47,7 +47,7 @@ class NewsDbProvider implements Source,Cache {
     return _db!.insert(
         ITEM_TABLE,
         item.toDb(),
-      //conflcit is solution ki primary key ko
+      //conflcit algorithm in two prmary key ayo bhane
       conflictAlgorithm: ConflictAlgorithm.replace
     );
   }
