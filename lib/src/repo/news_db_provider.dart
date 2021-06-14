@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:hacker_news/src/bloc/models/item_model.dart';
+import 'package:hacker_news/src/models/item_model.dart';
 import 'package:hacker_news/src/core/constants.dart';
 import 'package:hacker_news/src/core/sources.dart';
 import 'package:path_provider/path_provider.dart';

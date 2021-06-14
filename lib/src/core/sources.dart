@@ -1,4 +1,4 @@
-import 'package:hacker_news/src/bloc/models/item_model.dart';
+import 'package:hacker_news/src/models/item_model.dart';
 
 abstract class Source {
   Future<List<int>> fetchTopIds();

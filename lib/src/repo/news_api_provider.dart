@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:hacker_news/src/bloc/models/item_model.dart';
+import 'package:hacker_news/src/models/item_model.dart';
 import 'package:hacker_news/src/core/sources.dart';
 import 'package:http/http.dart';
 
