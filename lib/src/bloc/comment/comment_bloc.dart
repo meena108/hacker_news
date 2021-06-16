@@ -1,5 +1,8 @@
+import 'dart:collection';
+
 import 'package:bloc/bloc.dart';
 import 'package:hacker_news/src/bloc/comment/comment_state.dart';
+import 'package:hacker_news/src/models/item_model.dart';
 import 'package:hacker_news/src/repo/repository.dart';
 
 import 'comment_event.dart';
@@ -16,14 +19,14 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
         yield (CommentState(
             status: CommentStatus.error, message: 'Could not fetch item'));
       } else {
-        yield (CommentState(
-          status: CommentStatus.loaded,
-          //final listOfComments =List.comments;
-          //listOfComments.add(item);
-          //comments:listOfComments,
-          comments: state.comments!..add(item),
-        ));
+        yield loadComment(item);
       }
     }
+  }
+
+  CommentState loadComment(ItemModel item) {
+    var list =List.from(state.comments!).cast<ItemModel>();
+    list.add(item);
+    return CommentState(status: CommentStatus.loaded, comments: list);
   }
 }

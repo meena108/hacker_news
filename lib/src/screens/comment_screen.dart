@@ -53,19 +53,16 @@ class CommentScreen extends StatelessWidget {
         BlocBuilder<CommentBloc, CommentState>(
           builder: (BuildContext context, CommentState state) {
             print('comment state is ${state.status}');
-            if (state.status == CommentStatus.initial ||
-                state.status == CommentStatus.loaded) {
-              return Center(child: CircularProgressIndicator());
-            }
-            if (state.status == CommentStatus.error) {
-              return Center(child: Text(state.message!));
-            }
-            return ListView.builder(
-              shrinkWrap: true,
-              itemCount: state.comments!.length,
-              itemBuilder: (BuildContext context, int index) {
-                return Text(state.comments![index].title!);
-              },
+
+            return Flexible(
+              fit: FlexFit.loose,
+              child: ListView.builder(
+                itemCount: state.comments!.length,
+                shrinkWrap: true,
+                itemBuilder: (BuildContext context, int index) {
+                  return Text(state.comments![index].by!);
+                },
+              ),
             );
           },
         )

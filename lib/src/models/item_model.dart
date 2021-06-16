@@ -36,7 +36,7 @@ class ItemModel {
     deleted = json['deleted'];
     dead = json['dead'];
 
-    kids = json['kids']?.cast<int>();
+    kids = json['kids'] == null ? [] : json['kids'].cast<int>();
     score = json['score'];
     time = json['time'];
     title = json['title'];
@@ -50,7 +50,7 @@ class ItemModel {
     parent = json['parent'];
     deleted = json['deleted'] == 1 ;
     dead = json['dead'] == 1 ;
-    kids = jsonDecode(json['kids']).cast<int>();
+    kids = jsonDecode(json['kids']) == null ? [] : jsonDecode(json['kids']).cast<int>();
     score = json['score'];
     time = json['time'];
     title = json['title'];
