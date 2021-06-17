@@ -2,6 +2,7 @@ import 'dart:convert';
 
 class ItemModel {
   String? by;
+  String? text;
   int? descendants;
   int? id;
   int? parent;
@@ -16,6 +17,7 @@ class ItemModel {
 
   ItemModel(
       {this.by,
+        this.text,
         this.descendants,
         this.id,
         this.parent,
@@ -30,6 +32,7 @@ class ItemModel {
 
   ItemModel.fromJson(Map<String, dynamic> json) {
     by = json['by'];
+    text = json['text'];
     descendants = json['descendants'];
     id = json['id'];
     parent = json['parent'];
@@ -45,6 +48,7 @@ class ItemModel {
   }
   ItemModel.fromDB(Map<String, dynamic> json) {
     by = json['by'];
+    text = json['text'];
     descendants = json['descendants'];
     id = json['id'];
     parent = json['parent'];
@@ -61,6 +65,7 @@ class ItemModel {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['by'] = this.by;
+    data['text'] = this.text;
     data['descendants'] = this.descendants;
     data['id'] = this.id;
     data['parent'] = this.parent;
@@ -78,6 +83,7 @@ class ItemModel {
   Map<String, dynamic> toDb() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['by'] = this.by;
+    data['text'] = this.text;
     data['descendants'] = this.descendants;
     data['id'] = this.id;
     data['parent'] = this.parent;

@@ -10,23 +10,21 @@ import 'comment_event.dart';
 class CommentBloc extends Bloc<CommentEvent, CommentState> {
   final Repository repo;
   CommentBloc(this.repo) : super(CommentState(status: CommentStatus.initial));
+
   @override
   Stream<CommentState> mapEventToState(CommentEvent event) async* {
     if (event is FetchCommentEvent) {
-      yield (CommentState(status: CommentStatus.loading));
-      final item = await repo.fetchItem(event.id);
-      if (item == null) {
-        yield (CommentState(
-            status: CommentStatus.error, message: 'Could not fetch item'));
-      } else {
-        yield loadComment(item);
+   final item =  repo.fetchItem(event.id);
+        yield loadComment(item,event.id);
       }
     }
-  }
 
-  CommentState loadComment(ItemModel item) {
-    var list =List.from(state.comments!).cast<ItemModel>();
-    list.add(item);
-    return CommentState(status: CommentStatus.loaded, comments: list);
+
+  CommentState loadComment(Future<ItemModel?> item, int id) {
+    Map<int, Future<ItemModel?>> map =Map.from(state.comments!);
+    // map[id] =item;
+    map.putIfAbsent(id, () => item);
+
+    return CommentState(status: CommentStatus.loaded, comments: map);
   }
 }

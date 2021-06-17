@@ -38,8 +38,15 @@ class NewsDbProvider implements Source,Cache {
           url TEXT
         )
      """);
+      batch.execute("ALTER TABLE $ITEM_TABLE ADD COLUMN text TEXT");
       batch.commit();
-    });
+    },
+      onUpgrade: (Database newDb,int oldVersion, int newVersion) {
+      Batch batch = newDb.batch();
+      batch.execute("ALTER TABLE $ITEM_TABLE ADD COLUMN text TEXT");
+      batch.commit();
+      }
+    );
   }
   @override
   Future<int> insertItem(ItemModel item) async {
