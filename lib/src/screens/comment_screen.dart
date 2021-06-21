@@ -1,7 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hacker_news/src/bloc/comment/comment_bloc.dart';
-import 'package:hacker_news/src/bloc/comment/comment_event.dart';
 import 'package:hacker_news/src/bloc/comment/comment_state.dart';
 import 'package:hacker_news/src/models/item_model.dart';
 import 'package:hacker_news/src/repo/repository.dart';
@@ -11,6 +11,7 @@ class CommentScreen extends StatelessWidget {
   const CommentScreen({Key? key, required this.item}) : super(key: key);
   final ItemModel item;
 
+
   @override
   Widget build(BuildContext ctx) {
     return Scaffold(
@@ -18,7 +19,7 @@ class CommentScreen extends StatelessWidget {
         title: Text("News detail"),
       ),
       body: BlocProvider(
-        create: (_) => CommentBloc(Repository()),
+        create: (context) => CommentBloc(RepositoryProvider.of<Repository>(context)),
         child: Builder(builder: (context) {
           return _buildComments(context);
         }),
@@ -50,10 +51,17 @@ class CommentScreen extends StatelessWidget {
                 itemCount: item.kids!.length,
                 shrinkWrap: true,
                 itemBuilder: (BuildContext context, int index) {
-                  return CommentItem(
-                      item: state.comments![item.kids![index]],
-                    commentId: item.kids![index],
+                  return Column(
+                    children: [
+                      CommentItem(
+                          item: state.comments!,
+                        commentId: item.kids![index],
+                        depth:1,
+                      ),
+                       Divider(),
+                    ],
                   );
+
                 },
               ),
             );

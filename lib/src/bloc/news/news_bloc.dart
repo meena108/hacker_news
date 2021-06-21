@@ -24,7 +24,9 @@ class NewsBloc extends Bloc<NewsEvent, NewsState>{
       //todo fetch events and return it
     }
     if(event is RefreshEvent){
-      // todo handle later
+    // clear database.
+      await repo.clearData();
+
     }
   }
 

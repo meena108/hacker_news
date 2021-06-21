@@ -38,4 +38,7 @@ class Repository {
     }
     return item;
   }
+  Future<void>clearData() async {
+    await dbProvider.clearData();
+  }
 }

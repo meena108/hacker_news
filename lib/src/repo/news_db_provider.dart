@@ -21,8 +21,8 @@ class NewsDbProvider implements Source,Cache {
 
     _db = await openDatabase(dbPath, version: 1,
         onCreate: (Database newDB, int version) {
-      Batch batch = newDB.batch();
-      batch.execute("""
+          Batch batch = newDB.batch();
+          batch.execute("""
         CREATE TABLE $ITEM_TABLE (
           id INTEGER PRIMARY KEY,
           by TEXT,
@@ -38,24 +38,25 @@ class NewsDbProvider implements Source,Cache {
           url TEXT
         )
      """);
-      batch.execute("ALTER TABLE $ITEM_TABLE ADD COLUMN text TEXT");
-      batch.commit();
-    },
-      onUpgrade: (Database newDb,int oldVersion, int newVersion) {
-      Batch batch = newDb.batch();
-      batch.execute("ALTER TABLE $ITEM_TABLE ADD COLUMN text TEXT");
-      batch.commit();
-      }
+          batch.execute("ALTER TABLE $ITEM_TABLE ADD COLUMN text TEXT");
+          batch.commit();
+        },
+        onUpgrade: (Database newDb, int oldVersion, int newVersion) {
+          Batch batch = newDb.batch();
+          batch.execute("ALTER TABLE $ITEM_TABLE ADD COLUMN text TEXT");
+          batch.commit();
+        }
     );
   }
+
   @override
   Future<int> insertItem(ItemModel item) async {
     if (_db == null) await _init();
     return _db!.insert(
         ITEM_TABLE,
         item.toDb(),
-      //conflcit algorithm in two prmary key ayo bhane
-      conflictAlgorithm: ConflictAlgorithm.replace
+        //conflcit algorithm in two prmary key ayo bhane
+        conflictAlgorithm: ConflictAlgorithm.replace
     );
   }
 
@@ -64,9 +65,9 @@ class NewsDbProvider implements Source,Cache {
     if (_db == null) await _init();
     // final data =await _db!.rawQuery("SELECT *FROM $ITEM_TABLE where id = $id");
     final data = await _db!.query(
-        ITEM_TABLE,
-        where: "id = ? ",
-        whereArgs: [id],
+      ITEM_TABLE,
+      where: "id = ? ",
+      whereArgs: [id],
     );
     if (data.length != 1) return null;
     return ItemModel.fromDB(data.first);
@@ -77,5 +78,10 @@ class NewsDbProvider implements Source,Cache {
   Future<List<int>> fetchTopIds() async {
     // TODO: implement fetchItems
     return [];
+  }
+
+  Future<void> clearData() async {
+    if (_db == null) await _init();
+    await _db!.delete(ITEM_TABLE);
   }
 }
